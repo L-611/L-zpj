@@ -83,16 +83,15 @@
   min-height: 100vh; 
   display: flex; 
   flex-direction: column; 
-  justify-content: center; /* 核心：让所有内容垂直居中 */
-  align-items: center;     /* 核心：让所有内容水平居中 */
-  padding: 30px 20px;
+  justify-content: center; 
+  align-items: center; 
+  padding: 20px; 
   box-sizing: border-box;
+  overflow: hidden; /* 新增：防止内容溢出导致整个页面滑动 */
 ">
   
-  <!-- 标题：加上了白色和阴影，保证在暗背景上看得清 -->
-  <h1 style="color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); margin-bottom: 40px; font-size: 36px;">L-611的作品集</h1>
+  <h1 style="color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); margin-bottom: 30px; font-size: 36px; margin-top: 0;">L-611的作品集</h1>
   
-  <!-- 按钮组 -->
   <div class="btn-group">
     <button class="btn" onclick="showPage('scene-modeling')">场景建模</button>
     <button class="btn" onclick="showPage('character-modeling')">角色建模</button>
@@ -101,6 +100,7 @@
     <button class="btn" onclick="showPage('2d-animation')">二维动画</button>
     <button class="btn" onclick="showPage('3d-animation')">三维动画</button>
   </div>
+
 </div>
 
 <!-- ========== 场景建模 ========== -->
