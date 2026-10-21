@@ -19,17 +19,27 @@
   /* 首页 */
   #home h1 { font-size: 32px; margin-bottom: 30px; letter-spacing: 2px; }
   .btn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; max-width: 700px; margin: 0 auto; }
-  .btn {
-    padding: 12px 24px;
+   .btn {
+    padding: 12px 32px;
     font-size: 16px;
-    border: 1px solid #333;
-    background: #fff;
+    /* 核心：增加透明度并加上背景模糊 */
+    background: rgba(255, 255, 255, 0.6) !important; 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     color: #333;
-    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    /* 核心：强制变圆润 */
+    border-radius: 50px !important; 
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* 加一点淡淡的阴影，防止和白色背景融为一体 */
   }
-  .btn:hover { background: #333; color: #fff; }
+
+  .btn:hover {
+    background: rgba(255, 255, 255, 0.95) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  }
 
   /* 作品页 */
   .page h2 { font-size: 26px; margin-bottom: 24px; }
