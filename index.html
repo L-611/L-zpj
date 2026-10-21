@@ -67,17 +67,31 @@
 <body>
 
 <!-- ========== 首页 ========== -->
-<div id="home" class="page active">
-  <h1>L-611的作品集</h1>
-    <img src="images/fengmian.jpg" alt="封面" style="max-width:800px; width:80%; margin: 40px auto; display: block; border-radius: 10px;">
-  <div class="btn-group">
+<div id="home" class="page active" style="
+  background-image: url('images/fengmian.jpg'); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  min-height: 100vh; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between; 
+  padding: 50px 20px;
+  box-sizing: border-box;
+">
+  <h1 style="margin-top: 20px;">L-611的作品集</h1>
+  
+  <!-- 中间留空，不写东西，这样首图中间的加载符号就能露出来 -->
+  <div></div>
+
+  <!-- 按钮放在最下面 -->
+  <div class="btn-group" style="margin-bottom: 40px;">
     <button class="btn" onclick="showPage('scene-modeling')">场景建模</button>
     <button class="btn" onclick="showPage('character-modeling')">角色建模</button>
     <button class="btn" onclick="showPage('painting')">绘画作品</button>
     <button class="btn" onclick="showPage('handcraft')">手工作品</button>
     <button class="btn" onclick="showPage('2d-animation')">二维动画</button>
     <button class="btn" onclick="showPage('3d-animation')">三维动画</button>
-    <!-- 以后加新分类，照上面这行复制，改 onclick 里的 id 和按钮文字，再到下面复制一个对应的 div 即可 -->
   </div>
 </div>
 
