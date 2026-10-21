@@ -5,110 +5,220 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>L-611的作品集</title>
 
+<!-- ========================================== -->
+<!-- 🎨 样式控制区（改颜色、排版都在这里，平时不用动） -->
+<!-- ========================================== -->
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: "Microsoft YaHei", sans-serif; background: #111; color: #fff; scroll-behavior: smooth; }
+  
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: #111; 
+    color: #fff;
+  }
 
-  /* 强制每个板块占满一屏幕高 */
-  section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+  /* 【页面切换核心】保证只有当前页面显示，且至少占满一屏 */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; }
 
-  /* 首页专属 */
+  /* 【首页排版】锁定一屏高，背景图铺满 */
   #home {
-    background-image: url('images/fengmian.jpg'); 
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;     
+    text-align: center;
+    background-image: url('images/fengmian.jpg'); /* 👈 首图名字在这里改 */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    text-align: center;
+    overflow: hidden; 
   }
-  #home h1 { font-size: 36px; margin-bottom: 40px; color: #fff; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
 
-  /* 按钮样式 */
+  /* 【首页大标题】 */
+  #home h1 { font-size: 36px; letter-spacing: 2px; margin-bottom: 40px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+
+  /* 【按钮区域】磨砂玻璃效果 */
   .btn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; max-width: 700px; }
   .btn {
-    padding: 12px 32px; font-size: 16px;
-    background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px);
-    color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); 
-    border-radius: 50px; text-decoration: none; /* 注意这里，去掉了下划线 */
+    padding: 12px 32px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.15); 
+    backdrop-filter: blur(12px);           
+    -webkit-backdrop-filter: blur(12px);
+    color: #ffffff;                        
+    border: 1px solid rgba(255, 255, 255, 0.3); 
+    border-radius: 50px !important; 
+    cursor: pointer;
     transition: all 0.3s ease;
   }
   .btn:hover { background: rgba(255, 255, 255, 0.3); transform: translateY(-3px); }
 
-  /* 作品页专属 */
-  .works-container {
-    background: #f7f7f7; color: #222; width: 100%; padding: 40px 20px;
-    min-height: 100vh; display: block; /* 覆盖 section 的居中属性 */
-  }
-  .works-container h2 { text-align: center; margin-bottom: 30px; color: #222; }
+  /* 【作品页排版】网格卡片 */
+  .page h2 { font-size: 26px; margin: 40px auto 20px; text-align: center; }
+  .works { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto 40px; padding: 0 20px; }
+  .work-card { background: #fff; border-radius: 12px; overflow: hidden; color: #222; }
   
-  .works { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto; }
-  .work-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-  
+  /* 【多图相册样式】 */
+  .gallery { margin-bottom: 10px; }
   .main-img { width: 100%; height: 350px; object-fit: cover; display: block; background: #ccc; }
   .thumbs { display: flex; gap: 8px; padding: 10px; background: #fafafa; }
   .thumbs img { width: 60px; height: 60px; object-fit: cover; cursor: pointer; background: #ccc; }
 
+  /* 【作品文字介绍】 */
   .desc { padding: 16px; font-size: 14px; line-height: 1.6; }
   .desc strong { display: block; margin-bottom: 8px; font-size: 16px; }
 
-  /* 返回按钮 */
-  .back-btn {
-    display: inline-block; margin-top: 40px; padding: 10px 20px;
-    background: #ddd; color: #333; border-radius: 50px; text-decoration: none;
+  /* 【悬浮返回按钮】 */
+  .back {
+    position: fixed; top: 20px; left: 20px; padding: 10px 20px;
+    background: #fff; color: #333; border: none; border-radius: 50px;
+    cursor: pointer; z-index: 99999; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   }
-  .back-btn:hover { background: #ccc; }
+  .back.show { display: block; }
+
+  /* 【底部版权小字】 */
+  .footer-text {
+    position: absolute; bottom: 15px; width: 100%; text-align: center;
+    font-size: 12px; color: rgba(255,255,255,0.4);
+  }
 </style>
 </head>
 
 <body>
 
-<!-- ========== 首页 ========== -->
-<section id="home">
+<!-- ========================================== -->
+<!-- 🔙 全局返回按钮（不要删，放在这里就行） -->
+<!-- ========================================== -->
+<button id="global-back" class="back" onclick="showPage('home')">← 返回首页</button>
+
+
+<!-- ========================================== -->
+<!-- 🏠 板块一：首页 (Home) -->
+<!-- ========================================== -->
+<div id="home" class="page active">
   <h1>L-611的作品集</h1>
   
+  <!-- 👇 首页按钮组（要加新分类，在这里加 <button>） 👇 -->
   <div class="btn-group">
-    <!-- 注意这里的 href="#changjing"，这是 HTML 原生锚点 -->
-    <a href="#changjing" class="btn">场景建模</a>
-    <a href="#juese" class="btn">角色建模</a>
-    <a href="#" class="btn">绘画作品</a>
+    <button class="btn" onclick="showPage('scene-modeling')">场景建模</button>
+    <button class="btn" onclick="showPage('character-modeling')">角色建模</button>
+    <button class="btn" onclick="showPage('painting')">绘画作品</button>
+    <button class="btn" onclick="showPage('handcraft')">手工作品</button>
+    <button class="btn" onclick="showPage('2d-animation')">二维动画</button>
+    <button class="btn" onclick="showPage('3d-animation')">三维动画</button>
   </div>
-</section>
 
-<!-- ========== 场景建模 ========== -->
-<section id="changjing" class="works-container">
+  <!-- 👇 底部版权（固定死，不会撑出白底） 👇 -->
+  <div class="footer-text">© 2024 L-611. 保留所有权利。</div>
+</div>
+
+
+<!-- ========================================== -->
+<!-- 📦 板块二：场景建模作品页 (Scene Modeling) -->
+<!-- ========================================== -->
+<div id="scene-modeling" class="page">
   <h2>场景建模</h2>
   
   <div class="works">
+    
+    <!-- ⬇️ ⬇️ ⬇️ 【作品模板：复制从这里开始】 ⬇️ ⬇️ ⬇️ -->
     <div class="work-card">
-      <img src="images/changjing/1-A.jpg" class="main-img" alt="作品图">
-      <div class="desc">
-        <strong>作品名称：XXX</strong>
-        这里写介绍。
+      
+      <!-- 【多图相册区域】 -->
+      <div class="gallery">
+        <!-- 大图：默认显示第一张 -->
+        <img src="images/changjing/1-A.jpg" class="main-img" alt="场景建模主图">
+        
+        <!-- 小图缩略图：有几个图就写几行 -->
+        <div class="thumbs">
+          <img src="images/changjing/1-A.jpg" onclick="changeImg(this, 'images/changjing/1-A.jpg')">
+          <img src="images/changjing/1-B.jpg" onclick="changeImg(this, 'images/changjing/1-B.jpg')">
+          <img src="images/changjing/1-C.jpg" onclick="changeImg(this, 'images/changjing/1-C.jpg')">
+        </div>
       </div>
+
+      <!-- 【作品文字介绍区域】 -->
+      <div class="desc">
+        <strong>作品名称：赛博朋克街道</strong>
+        这里写作品的具体介绍，比如使用的软件、灵感来源、创作时间等。
+      </div>
+      
     </div>
-  </div>
+    <!-- ⬆️ ⬆️ ⬆️ 【作品模板：复制到这里结束】 ⬆️ ⬆️ ⬆️ -->
 
-  <div style="text-align:center;">
-    <!-- 点击回到 #home 锚点 -->
-    <a href="#home" class="back-btn">← 返回首页</a>
   </div>
-</section>
+</div>
 
-<!-- ========== 角色建模 ========== -->
-<section id="juese" class="works-container">
+
+<!-- ========================================== -->
+<!-- 📦 板块三：角色建模作品页 (Character Modeling) -->
+<!-- ========================================== -->
+<div id="character-modeling" class="page">
   <h2>角色建模</h2>
   <div class="works">
+    
+    <!-- 【单图作品模板】如果作品只有一张图，直接复制这个，不用搞小图 -->
     <div class="work-card">
-      <img src="images/juese/1-A.jpg" class="main-img" alt="作品图">
+      <img src="images/juese/1-A.jpg" style="width:100%; height:350px; object-fit:cover; display:block; background:#ccc;" alt="角色建模">
       <div class="desc">
-        <strong>作品名称：XXX</strong>
-        这里写介绍。
+        <strong>作品名称：机械战士</strong>
+        使用软件：Maya / ZBrush。
       </div>
     </div>
+
   </div>
-  <div style="text-align:center;">
-    <a href="#home" class="back-btn">← 返回首页</a>
-  </div>
-</section>
+</div>
+
+
+<!-- ========================================== -->
+<!-- 📦 板块四、五、六、七：其他分类（空壳，以后照猫画虎加作品） -->
+<!-- ========================================== -->
+<div id="painting" class="page"><h2>绘画作品</h2></div>
+<div id="handcraft" class="page"><h2>手工作品</h2></div>
+<div id="2d-animation" class="page"><h2>二维动画</h2></div>
+<div id="3d-animation" class="page"><h2>三维动画</h2></div>
+
+
+<!-- ========================================== -->
+<!-- ⚙️ 交互逻辑区（纯代码，千万别删，也别动它） -->
+<!-- ========================================== -->
+<script>
+function showPage(id) {
+  // 1. 先把所有页面的 active 去掉，让它们全部隐藏
+  var pages = document.querySelectorAll('.page');
+  for (var i = 0; i < pages.length; i++) {
+    pages[i].classList.remove('active');
+  }
+  
+  // 2. 找到你点中的那个页面，加上 active 让显示出来
+  var targetPage = document.getElementById(id);
+  if (targetPage) {
+    targetPage.classList.add('active');
+  }
+  
+  // 3. 控制左上角的悬浮返回按钮
+  var backBtn = document.getElementById('global-back');
+  if (id === 'home') {
+    backBtn.classList.remove('show');
+  } else {
+    backBtn.classList.add('show');
+  }
+  
+  // 4. 强制回到最顶部，彻底避免卡在半空
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+}
+
+// 多图相册切换功能
+function changeImg(element, newSrc) {
+  var card = element.closest('.work-card');
+  var mainImg = card.querySelector('.main-img');
+  mainImg.src = newSrc;
+}
+</script>
 
 </body>
 </html>
