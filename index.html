@@ -5,32 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>L-611的作品集</title>
 
-<!-- ========================================== -->
-<!-- 🎨 样式控制区（改颜色、排版都在这里，平时不用动） -->
-<!-- ========================================== -->
 <style>
-  * { 
-    box-sizing: border-box; 
-    margin: 0; 
-    padding: 0;
-    scroll-anchor: none; /* 关闭浏览器滚动锚定，修复切换偏移bug */
-  }
-  
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
     background: #111; 
     color: #fff;
   }
 
-  /* 【页面切换核心】保证只有当前页面显示，且至少占满一屏 */
-  .page { 
-    display: none; 
-    min-height: 100vh; 
-    background:#111; /* 统一背景，切换不闪白底 */
-  }
+  /* ===== 页面切换控制 ===== */
+  .page { display: none; min-height: 100vh; }
   .page.active { display: block; }
 
-  /* 【首页排版】锁定一屏高，背景图铺满 */
+  /* ===== 首页排版 ===== */
   #home {
     height: 100vh; 
     display: flex;
@@ -38,17 +25,16 @@
     justify-content: center; 
     align-items: center;     
     text-align: center;
-    background-image: url('images/fengmian.jpg'); /* 👈 首图名字在这里改 */
+    background-image: url('images/fengmian.jpg'); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     overflow: hidden; 
   }
 
-  /* 【首页大标题】 */
   #home h1 { font-size: 36px; letter-spacing: 2px; margin-bottom: 40px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
 
-  /* 【按钮区域】磨砂玻璃效果 */
+  /* ===== 磨砂按钮 ===== */
   .btn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; max-width: 700px; }
   .btn {
     padding: 12px 32px;
@@ -64,22 +50,20 @@
   }
   .btn:hover { background: rgba(255, 255, 255, 0.3); transform: translateY(-3px); }
 
-  /* 【作品页排版】网格卡片 */
+  /* ===== 作品页排版 ===== */
   .page h2 { font-size: 26px; margin: 40px auto 20px; text-align: center; }
   .works { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto 40px; padding: 0 20px; }
   .work-card { background: #fff; border-radius: 12px; overflow: hidden; color: #222; }
   
-  /* 【多图相册样式】 */
   .gallery { margin-bottom: 10px; }
   .main-img { width: 100%; height: 350px; object-fit: cover; display: block; background: #ccc; }
   .thumbs { display: flex; gap: 8px; padding: 10px; background: #fafafa; }
   .thumbs img { width: 60px; height: 60px; object-fit: cover; cursor: pointer; background: #ccc; }
 
-  /* 【作品文字介绍】 */
   .desc { padding: 16px; font-size: 14px; line-height: 1.6; }
   .desc strong { display: block; margin-bottom: 8px; font-size: 16px; }
 
-  /* 【悬浮返回按钮】 */
+  /* ===== 悬浮返回按钮 ===== */
   .back {
     position: fixed; top: 20px; left: 20px; padding: 10px 20px;
     background: #fff; color: #333; border: none; border-radius: 50px;
@@ -87,7 +71,7 @@
   }
   .back.show { display: block; }
 
-  /* 【底部版权小字】 */
+  /* ===== 底部版权小字 ===== */
   .footer-text {
     position: absolute; bottom: 15px; width: 100%; text-align: center;
     font-size: 12px; color: rgba(255,255,255,0.4);
@@ -97,19 +81,12 @@
 
 <body>
 
-<!-- ========================================== -->
-<!-- 🔙 全局返回按钮（不要删，放在这里就行） -->
-<!-- ========================================== -->
+<!-- 悬浮返回按钮 -->
 <button id="global-back" class="back" onclick="showPage('home')">← 返回首页</button>
 
-
-<!-- ========================================== -->
-<!-- 🏠 板块一：首页 (Home) -->
-<!-- ========================================== -->
+<!-- ========== 首页 ========== -->
 <div id="home" class="page active">
   <h1>L-611的作品集</h1>
-  
-  <!-- 👇 首页按钮组（要加新分类，在这里加 <button>） 👇 -->
   <div class="btn-group">
     <button class="btn" onclick="showPage('scene-modeling')">场景建模</button>
     <button class="btn" onclick="showPage('character-modeling')">角色建模</button>
@@ -118,118 +95,66 @@
     <button class="btn" onclick="showPage('2d-animation')">二维动画</button>
     <button class="btn" onclick="showPage('3d-animation')">三维动画</button>
   </div>
-
-  <!-- 👇 底部版权（固定死，不会撑出白底） 👇 -->
   <div class="footer-text">© 2024 L-611. 保留所有权利。</div>
 </div>
 
-
-<!-- ========================================== -->
-<!-- 📦 板块二：场景建模作品页 (Scene Modeling) -->
-<!-- ========================================== -->
+<!-- ========== 场景建模 ========== -->
 <div id="scene-modeling" class="page">
   <h2>场景建模</h2>
-  
   <div class="works">
     
-    <!-- ⬇️ ⬇️ ⬇️ 【作品模板：复制从这里开始】 ⬇️ ⬇️ ⬇️ -->
+    <!-- 【多图作品模板】 -->
     <div class="work-card">
-      
-      <!-- 【多图相册区域】 -->
       <div class="gallery">
-        <!-- 大图：默认显示第一张 -->
-        <img src="images/changjing/1-A.jpg" class="main-img" alt="场景建模主图">
-        
-        <!-- 小图缩略图：有几个图就写几行 -->
+        <img src="images/changjing/1-A.jpg" class="main-img" alt="主图">
         <div class="thumbs">
           <img src="images/changjing/1-A.jpg" onclick="changeImg(this, 'images/changjing/1-A.jpg')">
           <img src="images/changjing/1-B.jpg" onclick="changeImg(this, 'images/changjing/1-B.jpg')">
-          <img src="images/changjing/1-C.jpg" onclick="changeImg(this, 'images/changjing/1-C.jpg')">
         </div>
       </div>
-
-      <!-- 【作品文字介绍区域】 -->
       <div class="desc">
         <strong>作品名称：赛博朋克街道</strong>
-        这里写作品的具体介绍，比如使用的软件、灵感来源、创作时间等。
-      </div>
-      
-    </div>
-    <!-- ⬆️ ⬆️ ⬆️ 【作品模板：复制到这里结束】 ⬆️ ⬆️ ⬆️ -->
-
-  </div>
-</div>
-
-
-<!-- ========================================== -->
-<!-- 📦 板块三：角色建模作品页 (Character Modeling) -->
-<!-- ========================================== -->
-<div id="character-modeling" class="page">
-  <h2>角色建模</h2>
-  <div class="works">
-    
-    <!-- 【单图作品模板】如果作品只有一张图，直接复制这个，不用搞小图 -->
-    <div class="work-card">
-      <img src="images/juese/1-A.jpg" style="width:100%; height:350px; object-fit:cover; display:block; background:#ccc;" alt="角色建模">
-      <div class="desc">
-        <strong>作品名称：机械战士</strong>
-        使用软件：Maya / ZBrush。
+        这里写介绍...
       </div>
     </div>
 
   </div>
 </div>
 
-
-<!-- ========================================== -->
-<!-- 📦 板块四、五、六、七：其他分类（空壳，以后照猫画虎加作品） -->
-<!-- ========================================== -->
+<!-- ========== 其他分类 ========== -->
+<div id="character-modeling" class="page"><h2>角色建模</h2></div>
 <div id="painting" class="page"><h2>绘画作品</h2></div>
 <div id="handcraft" class="page"><h2>手工作品</h2></div>
 <div id="2d-animation" class="page"><h2>二维动画</h2></div>
 <div id="3d-animation" class="page"><h2>三维动画</h2></div>
 
-
 <!-- ========================================== -->
-<!-- ⚙️ 交互逻辑区（纯代码，千万别删，也别动它） -->
+<!-- 终极交互逻辑（不要动） -->
 <!-- ========================================== -->
 <script>
 function showPage(id) {
-  // 1. 先把所有页面的 active 去掉，让它们全部隐藏
+  // 1. 隐藏所有页面
   var pages = document.querySelectorAll('.page');
   for (var i = 0; i < pages.length; i++) {
-    pages[i].classList.remove('active');
+    pages[i].style.display = 'none'; // 强制隐藏
   }
   
-  // 2. 找到你点中的那个页面，加上 active 让显示出来
+  // 2. 显示目标页面
   var targetPage = document.getElementById(id);
   if (targetPage) {
-    targetPage.classList.add('active');
+    targetPage.style.display = 'block'; // 强制显示
   }
   
-  // 3. 控制左上角的悬浮返回按钮
+  // 3. 返回按钮
   var backBtn = document.getElementById('global-back');
   if (id === 'home') {
-    backBtn.classList.remove('show');
+    backBtn.style.display = 'none';
   } else {
-    backBtn.classList.add('show');
+    backBtn.style.display = 'block';
   }
   
-  // 4. requestAnimationFrame 等浏览器完成重排之后，再强制滚动到顶部
-  requestAnimationFrame(function(){
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'instant'
-    });
-  });
-}
-
-// 多图相册切换功能
-function changeImg(element, newSrc) {
-  var card = element.closest('.work-card');
-  var mainImg = card.querySelector('.main-img');
-  mainImg.src = newSrc;
+  // 4. 回到顶部
+  window.scrollTo(0, 0);
 }
 </script>
 
