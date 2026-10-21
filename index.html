@@ -6,6 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>L-611的作品集</title>
 <style>
+ .page h2 { font-size: 26px; margin: 100px auto 20px; text-align: center; color: #fff; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   
   html, body {
@@ -152,12 +153,9 @@
 
 <script>
 function showPage(id) {
-  // 先隐藏所有页面
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  // 显示目标页面
   document.getElementById(id).classList.add('active');
   
-  // 按钮状态切换
   var backBtn = document.getElementById('global-back');
   if (id === 'home') {
     backBtn.style.display = 'none';
@@ -165,12 +163,17 @@ function showPage(id) {
     backBtn.style.display = 'block';
   }
   
-  // 【终极杀手锏】瞬间把页面滚回最顶部
+  // 【终极强制回顶三连击】
+  // 1. 马上回顶
   window.scrollTo(0, 0);
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
+  // 2. 等浏览器渲染完页面尺寸后，再回顶一次
+  setTimeout(function() {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, 10);
 }
-
+ 
 function changeImg(element, newSrc) {
   var card = element.closest('.work-card');
   var mainImg = card.querySelector('.main-img');
