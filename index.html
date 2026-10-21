@@ -13,13 +13,13 @@
     color: #222;
   }
 
-  /* ===== 页面切换核心 ===== */
+  /* ===== 核心：页面切换控制 ===== */
   .page { display: none; }
   .page.active { display: block; }
 
   /* ===== 首页专属排版（深色背景版） ===== */
   #home {
-    min-height: 100vh;
+    height: 100vh; /* 强制只能有一屏高度，绝对不能往下滑 */
     display: flex;
     flex-direction: column;
     justify-content: center; 
@@ -30,8 +30,8 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    
     padding: 20px;
+    /* 首页不要滚动条 */
     overflow: hidden; 
   }
 
@@ -93,18 +93,18 @@
   
   /* 多图展示样式 */
   .gallery { margin-bottom: 10px; }
-  .main-img { width: 100%; height: 350px; object-fit: cover; display: block; cursor: pointer; transition: 0.3s; }
+  .main-img { width: 100%; height: 350px; object-fit: cover; display: block; cursor: pointer; transition: 0.3s; background: #eee;}
   .thumbs { display: flex; gap: 8px; padding: 10px; background: #fafafa; overflow-x: auto; }
-  .thumbs img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
+  .thumbs img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent; transition: 0.2s; background: #eee;}
   .thumbs img:hover { border-color: #333; }
 
   .desc { padding: 16px; font-size: 14px; line-height: 1.6; color: #555; }
   .desc strong { display: block; color: #222; margin-bottom: 8px; font-size: 16px; }
 
-  /* ===== 悬浮返回按钮 ===== */
+  /* ===== 悬浮返回按钮（默认隐藏） ===== */
   .back {
     position: fixed;
-    top: 15px;
+    top: 20px;
     left: 20px;
     padding: 10px 20px;
     background: rgba(255, 255, 255, 0.9);
@@ -114,21 +114,14 @@
     cursor: pointer;
     font-size: 15px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    z-index: 999;
+    z-index: 9999; /* 保证它在最顶层 */
     transition: 0.3s;
-    display: none; 
+    display: none; /* 默认绝对不显示 */
   }
   .back:hover { background: #fff; transform: scale(1.05); }
-  .back.show { display: block; } 
 
-  /* ===== 底部版权 ===== */
-  .footer {
-    text-align: center;
-    font-size: 12px;
-    color: #999;
-    padding: 20px;
-    margin-top: auto;
-  }
+  /* 底部版权 */
+  .footer { text-align: center; font-size: 12px; color: #999; padding: 20px; }
 </style>
 </head>
 <body>
@@ -153,15 +146,10 @@
 <div id="scene-modeling" class="page">
   <h2>场景建模</h2>
   <div class="works">
-    
-    <!-- 【多图作品模板】需要几个作品就复制几遍这个 <div class="work-card">...</div> -->
     <div class="work-card">
       <div class="gallery">
-        <!-- 主图：默认显示第 1 个作品的 A 图 -->
         <img src="images/changjing/1-A.jpg" class="main-img" alt="场景建模作品1主图">
-        
         <div class="thumbs">
-          <!-- 缩略图：点击切换到大图 -->
           <img src="images/changjing/1-A.jpg" onclick="changeImg(this, 'images/changjing/1-A.jpg')" alt="图A">
           <img src="images/changjing/1-B.jpg" onclick="changeImg(this, 'images/changjing/1-B.jpg')" alt="图B">
           <img src="images/changjing/1-C.jpg" onclick="changeImg(this, 'images/changjing/1-C.jpg')" alt="图C">
@@ -172,36 +160,29 @@
         这里写作品介绍。
       </div>
     </div>
-    <!-- 【模板结束】 -->
-
   </div>
 </div>
 
-<!-- ========== 角色建模（单图作品模板） ========== -->
+<!-- ========== 角色建模（单图模板） ========== -->
 <div id="character-modeling" class="page">
   <h2>角色建模</h2>
   <div class="works">
-    
-    <!-- 【单图作品模板】 -->
     <div class="work-card">
-      <img src="images/juese/1-A.jpg" style="width:100%; display:block;" alt="角色建模作品">
+      <img src="images/juese/1-A.jpg" style="width:100%; display:block; background:#eee;" alt="角色建模作品">
       <div class="desc">
         <strong>作品名称：XXX</strong>
         这里写作品介绍。
       </div>
     </div>
-    <!-- 【模板结束】 -->
-
   </div>
 </div>
 
-<!-- 其他分类占位（以后自己往里加图） -->
+<!-- 其他分类占位 -->
 <div id="painting" class="page"><h2>绘画作品</h2></div>
 <div id="handcraft" class="page"><h2>手工作品</h2></div>
 <div id="2d-animation" class="page"><h2>二维动画</h2></div>
 <div id="3d-animation" class="page"><h2>三维动画</h2></div>
 
-<!-- 底部版权 -->
 <div class="footer">© 2024 L-611. 保留所有权利。</div>
 
 <script>
@@ -215,19 +196,13 @@ function showPage(id) {
   // 3. 悬浮返回按钮控制
   var backBtn = document.getElementById('global-back');
   if (id === 'home') {
-    backBtn.classList.remove('show');
+    backBtn.style.display = 'none'; // 强制隐藏
   } else {
-    backBtn.classList.add('show');
+    backBtn.style.display = 'block'; // 强制显示
   }
   
-  // 4. 强行把页面滚回最顶部！用 setTimeout 给浏览器 10 毫秒的反应时间
-  setTimeout(function() {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'instant' // 瞬间跳上去，不要平滑滚动
-    });
-  }, 10);
+  // 4. 强行把页面滚回最顶部！
+  window.scrollTo(0, 0);
 }
 
 // 多图相册切换功能
