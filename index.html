@@ -1,1 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L-611的作品集</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: #f7f7f7;
+    color: #222;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .page { display: none; }
+  .page.active { display: block; }
 
+  /* 首页 */
+  #home h1 { font-size: 32px; margin-bottom: 30px; letter-spacing: 2px; }
+  .btn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; max-width: 700px; margin: 0 auto; }
+  .btn {
+    padding: 12px 24px;
+    font-size: 16px;
+    border: 1px solid #333;
+    background: #fff;
+    color: #333;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn:hover { background: #333; color: #fff; }
+
+  /* 作品页 */
+  .page h2 { font-size: 26px; margin-bottom: 24px; }
+  .works {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto 30px;
+    text-align: left;
+  }
+  .work-card {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .work-card img { width: 100%; display: block; }
+  .work-card .desc { padding: 14px; font-size: 14px; line-height: 1.6; color: #555; }
+  .work-card .desc strong { display: block; color: #222; margin-bottom: 6px; font-size: 15px; }
+
+  /* 返回按钮 */
+  .back {
+    margin-top: 20px;
+    padding: 10px 22px;
+    background: #eee;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  .back:hover { background: #ddd; }
+</style>
+</head>
+<body>
+
+<!-- ========== 首页 ========== -->
+<div id="home" class="page active">
+  <h1>L-611的作品集</h1>
+    <img src="images/首图/封面.jpg" alt="封面" style="max-width:800px; width:100%; border-radius:10px; margin-bottom:30px;">
+  <div class="btn-group">
+    <button class="btn" onclick="showPage('scene-modeling')">场景建模</button>
+    <button class="btn" onclick="showPage('character-modeling')">角色建模</button>
+    <button class="btn" onclick="showPage('painting')">绘画作品</button>
+    <button class="btn" onclick="showPage('handcraft')">手工作品</button>
+    <button class="btn" onclick="showPage('2d-animation')">二维动画</button>
+    <button class="btn" onclick="showPage('3d-animation')">三维动画</button>
+    <!-- 以后加新分类，照上面这行复制，改 onclick 里的 id 和按钮文字，再到下面复制一个对应的 div 即可 -->
+  </div>
+</div>
+
+<!-- ========== 场景建模 ========== -->
+<div id="scene-modeling" class="page">
+  <h2>场景建模</h2>
+  <div class="works">
+    <!-- 作品卡片模板：以后复制这一整块，改图片名和文字 -->
+    <div class="work-card">
+      <img src="images/场景建模/示例1.jpg" alt="场景建模作品1">
+      <div class="desc">
+        <strong>作品名称</strong>
+        这里写作品介绍，比如使用的软件、创作思路、完成时间等。
+      </div>
+    </div>
+    <!-- 需要更多作品就继续复制上面的 .work-card 块 -->
+  </div>
+  <button class="back" onclick="showPage('home')">← 返回首页</button>
+</div>
+
+<!-- ========== 角色建模 ========== -->
+<div id="character-modeling" class="page">
+  <h2>角色建模</h2>
+  <div class="works">
+    <div class="work-card">
+      <img src="images/角色建模/示例1.jpg" alt="角色建模作品1">
+      <div class="desc">
+        <strong>作品名称</strong>
+        这里写作品介绍。
+      </div>
+    </div>
+  </div>
+  <button class="back" onclick="showPage('home')">← 返回首页</button>
+</div>
+
+<!-- ========== 绘画作品 ========== -->
+<div id="painting" class="page">
+  <h2>绘画作品</h2>
+  <div class="works">
+    <div class="work-card">
+      <img src="images/绘画作品/示例1.jpg" alt="绘画作品1">
+      <div class="desc">
+        <strong>作品名称</strong>
+        这里写作品介绍。
+      </div>
+    </div>
+  </div>
+  <button class="back" onclick="showPage('home')">← 返回首页</button>
+</div>
+
+<!-- ========== 手工作品 ========== -->
+<div id="handcraft" class="page">
+  <h2>手工作品</h2>
+  <div class="works">
+    <div class="work-card">
+      <img src="images/手工作品/示例1.jpg" alt="手工作品1">
+      <div class="desc">
+        <strong>作品名称</strong>
+        这里写作品介绍。
+      </div>
+    </div>
+  </div>
+  <button class="back" onclick="showPage('home')">← 返回首页</button>
+</div>
+
+<!-- ========== 二维动画 ========== -->
+<div id="2d-animation" class="page">
+  <h2>二维动画</h2>
+  <div class="works">
+    <div class="work-card">
+      <img src="images/二维动画/示例1.jpg" alt="二维动画作品1">
+      <div class="desc">
+        <strong>作品名称</strong>
+        这里写作品介绍。
+      </div>
+    </div>
+  </div>
+  <button class="back" onclick="showPage('home')">← 返回首页</button>
+</div>
+
+<!-- ========== 三维动画 ========== -->
+<div id="3d-animation" class="page">
+  <h2>三维动画</h2>
+  <div class="works">
+    <div class="work-card">
+      <img src="images/三维动画/示例1.jpg" alt="三维动画作品1">
+      <div class="desc">
+        <strong>作品名称</strong>
+        这里写作品介绍。
+      </div>
+    </div>
+  </div>
+  <button class="back" onclick="showPage('home')">← 返回首页</button>
+</div>
+
+<script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+
+</body>
+</html>
