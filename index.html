@@ -3,23 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>L-611的作品集</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   
-  body {
+  html, body {
+    /* 根元素高度设为100%，绝对不让它溢出 */
+    height: 100%;
     font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
-    background: #f7f7f7;
-    color: #222;
+    background: #111; 
+    color: #fff;
+    overflow-x: hidden; /* 防止横向滚动 */
   }
 
-  /* ===== 核心：页面切换控制 ===== */
-  .page { display: none; }
-  .page.active { display: block; }
+  /* ===== 页面切换控制 ===== */
+  .page { 
+    display: none; 
+    min-height: 100%; /* 至少占满一屏，但不能撑破 */
+  }
+  .page.active { 
+    display: block; 
+  }
 
-  /* ===== 首页专属排版（深色背景版） ===== */
+  /* ===== 首页专属排版 ===== */
   #home {
-    height: 100vh; /* 强制只能有一屏高度，绝对不能往下滑 */
+    height: 100vh; /* 严格锁定一屏幕高 */
     display: flex;
     flex-direction: column;
     justify-content: center; 
@@ -30,28 +39,25 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    padding: 20px;
-    /* 首页不要滚动条 */
-    overflow: hidden; 
+    
+    position: relative;
+    overflow: hidden; /* 首页内部绝对不出现滚动条 */
   }
 
-  #home h1 { 
-    color: #ffffff; 
-    text-shadow: 0 4px 12px rgba(0,0,0,0.5); 
-    margin-bottom: 40px; 
-    font-size: 36px; 
-    letter-spacing: 2px;
+  #home h1 { font-size: 36px; letter-spacing: 2px; margin-bottom: 40px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+
+  /* 把版权信息固定在首页最底部，不占用排版空间 */
+  .footer-text {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
   }
 
   /* ===== 磨砂按钮 ===== */
-  .btn-group { 
-    display: flex; 
-    flex-wrap: wrap; 
-    justify-content: center; 
-    gap: 14px; 
-    max-width: 700px; 
-  }
-  
+  .btn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; max-width: 700px; }
   .btn {
     padding: 12px 32px;
     font-size: 16px;
@@ -63,73 +69,46 @@
     border-radius: 50px !important; 
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
   }
-
-  .btn:hover {
-    background: rgba(255, 255, 255, 0.3); 
-    transform: translateY(-3px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-  }
+  .btn:hover { background: rgba(255, 255, 255, 0.3); transform: translateY(-3px); }
 
   /* ===== 作品页与网格排版 ===== */
   .page h2 { font-size: 26px; margin: 40px auto 20px; text-align: center; }
-  
-  .works {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
-    max-width: 1100px;
-    margin: 0 auto 40px;
-    padding: 0 20px;
-  }
-
-  .work-card {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  }
+  .works { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto 40px; padding: 0 20px; }
+  .work-card { background: #fff; border-radius: 12px; overflow: hidden; color: #222; }
   
   /* 多图展示样式 */
   .gallery { margin-bottom: 10px; }
-  .main-img { width: 100%; height: 350px; object-fit: cover; display: block; cursor: pointer; transition: 0.3s; background: #eee;}
-  .thumbs { display: flex; gap: 8px; padding: 10px; background: #fafafa; overflow-x: auto; }
-  .thumbs img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent; transition: 0.2s; background: #eee;}
-  .thumbs img:hover { border-color: #333; }
+  .main-img { width: 100%; height: 350px; object-fit: cover; display: block; background: #ccc; }
+  .thumbs { display: flex; gap: 8px; padding: 10px; background: #fafafa; }
+  .thumbs img { width: 60px; height: 60px; object-fit: cover; cursor: pointer; background: #ccc; }
 
-  .desc { padding: 16px; font-size: 14px; line-height: 1.6; color: #555; }
-  .desc strong { display: block; color: #222; margin-bottom: 8px; font-size: 16px; }
+  .desc { padding: 16px; font-size: 14px; line-height: 1.6; }
+  .desc strong { display: block; margin-bottom: 8px; font-size: 16px; }
 
-  /* ===== 悬浮返回按钮（默认隐藏） ===== */
+  /* ===== 悬浮返回按钮 ===== */
   .back {
     position: fixed;
     top: 20px;
     left: 20px;
     padding: 10px 20px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    border: 1px solid #ddd;
+    background: #fff;
+    color: #333;
+    border: none;
     border-radius: 50px;
     cursor: pointer;
-    font-size: 15px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    z-index: 9999; /* 保证它在最顶层 */
-    transition: 0.3s;
-    display: none; /* 默认绝对不显示 */
+    z-index: 99999;
+    display: none; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   }
-  .back:hover { background: #fff; transform: scale(1.05); }
-
-  /* 底部版权 */
-  .footer { text-align: center; font-size: 12px; color: #999; padding: 20px; }
 </style>
 </head>
 <body>
 
-<!-- 悬浮返回按钮 -->
+<!-- 返回按钮 -->
 <button id="global-back" class="back" onclick="showPage('home')">← 返回首页</button>
 
-<!-- ========== 首页 ========== -->
+<!-- 首页 -->
 <div id="home" class="page active">
   <h1>L-611的作品集</h1>
   <div class="btn-group">
@@ -140,72 +119,58 @@
     <button class="btn" onclick="showPage('2d-animation')">二维动画</button>
     <button class="btn" onclick="showPage('3d-animation')">三维动画</button>
   </div>
+  <!-- 版权信息嵌在首页里，绝对不撑高页面 -->
+  <div class="footer-text">© 2024 L-611. 保留所有权利。</div>
 </div>
 
-<!-- ========== 场景建模（多图相册标准模板） ========== -->
+<!-- 场景建模 -->
 <div id="scene-modeling" class="page">
   <h2>场景建模</h2>
   <div class="works">
     <div class="work-card">
       <div class="gallery">
-        <img src="images/changjing/1-A.jpg" class="main-img" alt="场景建模作品1主图">
+        <img src="images/changjing/1-A.jpg" class="main-img" alt="作品图">
         <div class="thumbs">
-          <img src="images/changjing/1-A.jpg" onclick="changeImg(this, 'images/changjing/1-A.jpg')" alt="图A">
-          <img src="images/changjing/1-B.jpg" onclick="changeImg(this, 'images/changjing/1-B.jpg')" alt="图B">
-          <img src="images/changjing/1-C.jpg" onclick="changeImg(this, 'images/changjing/1-C.jpg')" alt="图C">
+          <img src="images/changjing/1-A.jpg" onclick="changeImg(this, 'images/changjing/1-A.jpg')">
+          <img src="images/changjing/1-B.jpg" onclick="changeImg(this, 'images/changjing/1-B.jpg')">
         </div>
       </div>
       <div class="desc">
         <strong>作品名称：XXX</strong>
-        这里写作品介绍。
+        这里写介绍...
       </div>
     </div>
   </div>
 </div>
 
-<!-- ========== 角色建模（单图模板） ========== -->
-<div id="character-modeling" class="page">
-  <h2>角色建模</h2>
-  <div class="works">
-    <div class="work-card">
-      <img src="images/juese/1-A.jpg" style="width:100%; display:block; background:#eee;" alt="角色建模作品">
-      <div class="desc">
-        <strong>作品名称：XXX</strong>
-        这里写作品介绍。
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- 其他分类占位 -->
+<!-- 其他分类 -->
+<div id="character-modeling" class="page"><h2>角色建模</h2></div>
 <div id="painting" class="page"><h2>绘画作品</h2></div>
 <div id="handcraft" class="page"><h2>手工作品</h2></div>
 <div id="2d-animation" class="page"><h2>二维动画</h2></div>
 <div id="3d-animation" class="page"><h2>三维动画</h2></div>
 
-<div class="footer">© 2024 L-611. 保留所有权利。</div>
-
 <script>
-// 页面切换功能
 function showPage(id) {
-  // 1. 隐藏所有页面
+  // 先隐藏所有页面
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  // 2. 显示目标页面
+  // 显示目标页面
   document.getElementById(id).classList.add('active');
   
-  // 3. 悬浮返回按钮控制
+  // 按钮状态切换
   var backBtn = document.getElementById('global-back');
   if (id === 'home') {
-    backBtn.style.display = 'none'; // 强制隐藏
+    backBtn.style.display = 'none';
   } else {
-    backBtn.style.display = 'block'; // 强制显示
+    backBtn.style.display = 'block';
   }
   
-  // 4. 强行把页面滚回最顶部！
+  // 【终极杀手锏】瞬间把页面滚回最顶部
   window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
 }
 
-// 多图相册切换功能
 function changeImg(element, newSrc) {
   var card = element.closest('.work-card');
   var mainImg = card.querySelector('.main-img');
