@@ -3,59 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>L-611的作品集</title>
 <style>
- .page h2 { font-size: 26px; margin: 100px auto 20px; text-align: center; color: #fff; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   
-  html, body {
-    /* 根元素高度设为100%，绝对不让它溢出 */
-    height: 100%;
+  body {
     font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
     background: #111; 
     color: #fff;
-    overflow-x: hidden; /* 防止横向滚动 */
   }
 
-  /* ===== 页面切换控制 ===== */
-  .page { 
-    display: none; 
-    min-height: 100%; /* 至少占满一屏，但不能撑破 */
-  }
-  .page.active { 
-    display: block; 
-  }
+  /* ===== 页面切换 ===== */
+  .page { display: none; }
+  .page.active { display: block; }
 
-  /* ===== 首页专属排版 ===== */
+  /* ===== 首页排版 ===== */
   #home {
-    height: 100vh; /* 严格锁定一屏幕高 */
+    height: 100vh; /* 占满一屏 */
     display: flex;
     flex-direction: column;
     justify-content: center; 
     align-items: center;     
     text-align: center;
-    
     background-image: url('images/fengmian.jpg'); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    
-    position: relative;
-    overflow: hidden; /* 首页内部绝对不出现滚动条 */
+    overflow: hidden; /* 首页绝对不出现滑轮 */
   }
 
   #home h1 { font-size: 36px; letter-spacing: 2px; margin-bottom: 40px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
-
-  /* 把版权信息固定在首页最底部，不占用排版空间 */
-  .footer-text {
-    position: absolute;
-    bottom: 15px;
-    width: 100%;
-    text-align: center;
-    font-size: 12px;
-    color: rgba(255,255,255,0.4);
-  }
 
   /* ===== 磨砂按钮 ===== */
   .btn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; max-width: 700px; }
@@ -73,12 +50,11 @@
   }
   .btn:hover { background: rgba(255, 255, 255, 0.3); transform: translateY(-3px); }
 
-  /* ===== 作品页与网格排版 ===== */
+  /* ===== 作品页排版 ===== */
   .page h2 { font-size: 26px; margin: 40px auto 20px; text-align: center; }
   .works { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto 40px; padding: 0 20px; }
   .work-card { background: #fff; border-radius: 12px; overflow: hidden; color: #222; }
   
-  /* 多图展示样式 */
   .gallery { margin-bottom: 10px; }
   .main-img { width: 100%; height: 350px; object-fit: cover; display: block; background: #ccc; }
   .thumbs { display: flex; gap: 8px; padding: 10px; background: #fafafa; }
@@ -99,9 +75,10 @@
     border-radius: 50px;
     cursor: pointer;
     z-index: 99999;
-    display: none; 
+    display: none; /* 默认隐藏 */
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   }
+  .back.show { display: block; } /* 强制显示 */
 </style>
 </head>
 <body>
@@ -113,6 +90,7 @@
 <div id="home" class="page active">
   <h1>L-611的作品集</h1>
   <div class="btn-group">
+    <!-- 这里的 onclick 改成了 window.location.hash 锚点方式，强制重置滚动条 -->
     <button class="btn" onclick="showPage('scene-modeling')">场景建模</button>
     <button class="btn" onclick="showPage('character-modeling')">角色建模</button>
     <button class="btn" onclick="showPage('painting')">绘画作品</button>
@@ -120,8 +98,6 @@
     <button class="btn" onclick="showPage('2d-animation')">二维动画</button>
     <button class="btn" onclick="showPage('3d-animation')">三维动画</button>
   </div>
-  <!-- 版权信息嵌在首页里，绝对不撑高页面 -->
-  <div class="footer-text">© 2024 L-611. 保留所有权利。</div>
 </div>
 
 <!-- 场景建模 -->
@@ -137,14 +113,14 @@
         </div>
       </div>
       <div class="desc">
-        <strong>作品名称：XXX</strong>
+        <strong>作品名称：赛博朋克街道</strong>
         这里写介绍...
       </div>
     </div>
   </div>
 </div>
 
-<!-- 其他分类 -->
+<!-- 其他分类占位（什么都不用放） -->
 <div id="character-modeling" class="page"><h2>角色建模</h2></div>
 <div id="painting" class="page"><h2>绘画作品</h2></div>
 <div id="handcraft" class="page"><h2>手工作品</h2></div>
@@ -153,31 +129,21 @@
 
 <script>
 function showPage(id) {
+  // 1. 切换页面 class
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   
+  // 2. 控制返回按钮
   var backBtn = document.getElementById('global-back');
   if (id === 'home') {
-    backBtn.style.display = 'none';
+    backBtn.classList.remove('show');
   } else {
-    backBtn.style.display = 'block';
+    backBtn.classList.add('show');
   }
   
-  // 【终极强制回顶三连击】
-  // 1. 马上回顶
+  // 3. 终极物理归零：不仅让滚动条回0，还给网页加个瞬时哈希（骗过浏览器）
+  window.location.hash = id; // 这个非常关键！
   window.scrollTo(0, 0);
-  // 2. 等浏览器渲染完页面尺寸后，再回顶一次
-  setTimeout(function() {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-  }, 10);
-}
- 
-function changeImg(element, newSrc) {
-  var card = element.closest('.work-card');
-  var mainImg = card.querySelector('.main-img');
-  mainImg.src = newSrc;
 }
 </script>
 
