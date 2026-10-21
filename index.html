@@ -9,7 +9,12 @@
 <!-- 🎨 样式控制区（改颜色、排版都在这里，平时不用动） -->
 <!-- ========================================== -->
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0;
+    scroll-anchor: none; /* 关闭浏览器滚动锚定，修复切换偏移bug */
+  }
   
   body {
     font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
@@ -18,7 +23,11 @@
   }
 
   /* 【页面切换核心】保证只有当前页面显示，且至少占满一屏 */
-  .page { display: none; min-height: 100vh; }
+  .page { 
+    display: none; 
+    min-height: 100vh; 
+    background:#111; /* 统一背景，切换不闪白底 */
+  }
   .page.active { display: block; }
 
   /* 【首页排版】锁定一屏高，背景图铺满 */
@@ -206,10 +215,14 @@ function showPage(id) {
     backBtn.classList.add('show');
   }
   
-  // 4. 强制回到最顶部，彻底避免卡在半空
-  window.scrollTo(0, 0);
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
+  // 4. requestAnimationFrame 等浏览器完成重排之后，再强制滚动到顶部
+  requestAnimationFrame(function(){
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant'
+    });
+  });
 }
 
 // 多图相册切换功能
