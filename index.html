@@ -11,7 +11,6 @@
     font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
     background: #f7f7f7;
     color: #222;
-    padding-top: 60px; /* 给左上角悬浮按钮留出空间 */
   }
 
   /* ===== 页面切换核心 ===== */
@@ -32,7 +31,6 @@
     background-position: center;
     background-repeat: no-repeat;
     
-    margin-top: -60px; 
     padding: 20px;
     overflow: hidden; 
   }
@@ -170,8 +168,8 @@
         </div>
       </div>
       <div class="desc">
-        <strong>作品名称：赛博朋克街道</strong>
-        这里写作品介绍。使用的软件：Blender。创作思路：展示未来城市的夜晚。
+        <strong>作品名称：XXX</strong>
+        这里写作品介绍。
       </div>
     </div>
     <!-- 【模板结束】 -->
@@ -188,8 +186,8 @@
     <div class="work-card">
       <img src="images/juese/1-A.jpg" style="width:100%; display:block;" alt="角色建模作品">
       <div class="desc">
-        <strong>作品名称：机械战士</strong>
-        使用软件：Maya / ZBrush。
+        <strong>作品名称：XXX</strong>
+        这里写作品介绍。
       </div>
     </div>
     <!-- 【模板结束】 -->
@@ -209,10 +207,12 @@
 <script>
 // 页面切换功能
 function showPage(id) {
+  // 1. 隐藏所有页面
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // 2. 显示目标页面
   document.getElementById(id).classList.add('active');
   
-  // 悬浮返回按钮控制
+  // 3. 悬浮返回按钮控制
   var backBtn = document.getElementById('global-back');
   if (id === 'home') {
     backBtn.classList.remove('show');
@@ -220,8 +220,14 @@ function showPage(id) {
     backBtn.classList.add('show');
   }
   
-  // 切换页面时自动滚回最顶部
-  window.scrollTo(0, 0);
+  // 4. 强行把页面滚回最顶部！用 setTimeout 给浏览器 10 毫秒的反应时间
+  setTimeout(function() {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant' // 瞬间跳上去，不要平滑滚动
+    });
+  }, 10);
 }
 
 // 多图相册切换功能
