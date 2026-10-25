@@ -94,7 +94,7 @@
 
   .footer-text { position: absolute; bottom: 15px; width: 100%; text-align: center; font-size: 12px; color: rgba(255,255,255,0.3); }
 
-  /* ===== 诗意页面 ===== */
+  /* ===== 小彩蛋页面 ===== */
   #poem-page {
     height: 100vh;
     display: flex;
@@ -123,14 +123,15 @@
 <div id="home" class="page active">
   <h1>L-611的作品集</h1>
   
+  <!-- 首页按钮 -->
   <div class="btn-group">
-    <button class="btn" onclick="showPage('scene-modeling')">三维建模</button>
-    <button class="btn" onclick="showPage('2d-art')">二维设计</button>
-    <button class="btn" onclick="showPage('animation')">动画作品</button>
-    <button class="btn" onclick="showPage('other-crafts')">综合创作</button>
+    <button class="btn" onclick="showPage('sanwei')">三维建模</button>
+    <button class="btn" onclick="showPage('erwei')">二维设计</button>
+    <button class="btn" onclick="showPage('donghua')">动画作品</button>
+    <button class="btn" onclick="showPage('zonghe')">综合创作</button>
   </div>
 
-  <!-- ☁️ 那朵神奇的云 -->
+  <!-- ☁️ 神奇的云 -->
   <div class="cloud-container" onclick="showPage('poem-page')">
     <svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.6)" xmlns="http://www.w3.org/2000/svg">
       <path d="M17.5 19H6.5C4.01472 19 2 16.9853 2 14.5C2 12.1322 3.83267 10.1867 6.1536 10.0212C6.75651 7.73968 8.83478 6 11.25 6C13.9869 6 16.25 8.09277 16.4922 10.7645C18.5028 11.1326 20 12.8845 20 15C20 17.2091 18.2091 19 16 19H17.5Z" />
@@ -140,81 +141,81 @@
   <div class="footer-text">© 2024 L-611. 保留所有权利。</div>
 </div>
 
-<!-- ========== 1. 三维建模（保留了你的原代码） ========== -->
-<div id="scene-modeling" class="page">
+<!-- ========== 1. 三维建模（文件夹用 images/sanwei/） ========== -->
+<div id="sanwei" class="page">
   <h2>三维建模</h2>
   <div class="works">
     
-    <!-- 你的“小木屋” -->
+    <!-- “小木屋” -->
     <div class="work-card">
       <div class="gallery">
-        <img src="images/changjing/1-A.png" class="main-img" alt="主图">
+        <img src="images/sanwei/1-A.png" class="main-img" alt="主图">
         <div class="thumbs">
-          <img src="images/changjing/1-A.png" onclick="changeImg(this, 'images/changjing/1-A.png')">
-          <img src="images/changjing/1-B.png" onclick="changeImg(this, 'images/changjing/1-B.png')">
-          <img src="images/changjing/1-C.png" onclick="changeImg(this, 'images/changjing/1-C.png')">
+          <img src="images/sanwei/1-A.png" onclick="changeImg(this, 'images/sanwei/1-A.png')">
+          <img src="images/sanwei/1-B.png" onclick="changeImg(this, 'images/sanwei/1-B.png')">
+          <img src="images/sanwei/1-C.png" onclick="changeImg(this, 'images/sanwei/1-C.png')">
         </div>
       </div>
       <div class="desc">
         <strong>作品名称：小木屋</strong>
-        blender
+        blender制作
       </div>
     </div>
 
-    <!-- 你的“拥挤的房间” -->
+    <!-- “拥挤的房间” -->
     <div class="work-card">
       <div class="gallery">
-        <img src="images/changjing/2-A.png" class="main-img" alt="主图">
+        <img src="images/sanwei/2-A.png" class="main-img" alt="主图">
         <div class="thumbs">
-          <img src="images/changjing/2-A.png" onclick="changeImg(this, 'images/changjing/2-A.png')">
-          <img src="images/changjing/2-B.png" onclick="changeImg(this, 'images/changjing/2-B.png')">
-          <img src="images/changjing/2-C.png" onclick="changeImg(this, 'images/changjing/2-C.png')">
-          <img src="images/changjing/2-D.png" onclick="changeImg(this, 'images/changjing/2-D.png')">
-          <img src="images/changjing/2-E.png" onclick="changeImg(this, 'images/changjing/2-E.png')">
-          <img src="images/changjing/2-F.png" onclick="changeImg(this, 'images/changjing/2-F.png')">
-          <img src="images/changjing/2-G.png" onclick="changeImg(this, 'images/changjing/2-G.png')">
-          <img src="images/changjing/2-H.png" onclick="changeImg(this, 'images/changjing/2-H.png')">
+          <img src="images/sanwei/2-A.png" onclick="changeImg(this, 'images/sanwei/2-A.png')">
+          <img src="images/sanwei/2-B.png" onclick="changeImg(this, 'images/sanwei/2-B.png')">
+          <img src="images/sanwei/2-C.png" onclick="changeImg(this, 'images/sanwei/2-C.png')">
+          <img src="images/sanwei/2-D.png" onclick="changeImg(this, 'images/sanwei/2-D.png')">
+          <img src="images/sanwei/2-E.png" onclick="changeImg(this, 'images/sanwei/2-E.png')">
+          <img src="images/sanwei/2-F.png" onclick="changeImg(this, 'images/sanwei/2-F.png')">
+          <img src="images/sanwei/2-G.png" onclick="changeImg(this, 'images/sanwei/2-G.png')">
+          <img src="images/sanwei/2-H.png" onclick="changeImg(this, 'images/sanwei/2-H.png')">
         </div>
       </div>
       <div class="desc">
         <strong>作品名称：拥挤的房间</strong>
-        blender
+        blender制作
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- ========== 2. 二维设计 ========== -->
-<div id="2d-art" class="page">
+<!-- ========== 2. 二维设计（文件夹请用 images/erwei/） ========== -->
+<div id="erwei" class="page">
   <h2>二维设计</h2>
   <div class="works">
-    <!-- 以后放这里 -->
+    <!-- 以后放这里，图片路径写 images/erwei/... -->
   </div>
 </div>
 
-<!-- ========== 3. 动画作品 ========== -->
-<div id="animation" class="page">
+<!-- ========== 3. 动画作品（文件夹请用 images/donghua/） ========== -->
+<div id="donghua" class="page">
   <h2>动画作品</h2>
   <div class="works">
-    <!-- 以后放这里 -->
+    <!-- 以后放这里，图片路径写 images/donghua/... -->
   </div>
 </div>
 
-<!-- ========== 4. 综合创作 ========== -->
-<div id="other-crafts" class="page">
+<!-- ========== 4. 综合创作（文件夹请用 images/zonghe/） ========== -->
+<div id="zonghe" class="page">
   <h2>综合创作</h2>
   <div class="works">
-    <!-- 以后放这里 -->
+    <!-- 以后放这里，图片路径写 images/zonghe/... -->
   </div>
 </div>
 
-<!-- ========== 5. 诗意页面 ========== -->
+<!-- ========== 5. 彩蛋页面 ========== -->
 <div id="poem-page" class="page">
   <p>闲云也恋人寰好<br>山上渟滢懒上尖</p>
 </div>
 
-<!-- 交互逻辑（别动） -->
+<!-- 交互逻辑 -->
 <script>
 function showPage(id) {
   var pages = document.querySelectorAll('.page');
