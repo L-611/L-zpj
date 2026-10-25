@@ -11,13 +11,14 @@
     font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
     background: #111; 
     color: #fff;
+    overflow-x: hidden;
   }
 
-  /* ===== 页面切换控制 ===== */
+  /* ===== 页面切换核心 ===== */
   .page { display: none; min-height: 100vh; }
   .page.active { display: block; }
 
-  /* ===== 首页专属排版 ===== */
+  /* ===== 首页排版 ===== */
   #home {
     height: 100vh; 
     display: flex;
@@ -35,7 +36,7 @@
   #home h1 { font-size: 36px; letter-spacing: 2px; margin-bottom: 40px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
 
   /* ===== 磨砂按钮 ===== */
-  .btn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; max-width: 700px; }
+  .btn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; max-width: 700px; margin-bottom: 50px; }
   .btn {
     padding: 12px 32px;
     font-size: 16px;
@@ -50,17 +51,36 @@
   }
   .btn:hover { background: rgba(255, 255, 255, 0.3); transform: translateY(-3px); }
 
+  /* ===== 云朵专属样式 ===== */
+  .cloud-container {
+    margin-top: 20px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    animation: floatCloud 4s ease-in-out infinite; 
+  }
+  .cloud-container:hover { transform: scale(1.1); }
+  .cloud-container svg {
+    width: 120px;
+    height: auto;
+    filter: drop-shadow(0 0 15px rgba(255,255,255,0.3)); 
+    opacity: 0.8;
+  }
+
+  @keyframes floatCloud {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+  }
+
   /* ===== 作品页排版 ===== */
   .page h2 { font-size: 26px; margin: 40px auto 20px; text-align: center; }
   .works { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto 40px; padding: 0 20px; }
   .work-card { background: #fff; border-radius: 12px; overflow: hidden; color: #222; }
-  
   .gallery { margin-bottom: 10px; }
   .main-img { width: 100%; height: 350px; object-fit: cover; display: block; background: #ccc; }
-    .thumbs { display: flex; gap: 8px; padding: 10px; background: #fafafa; overflow-x: auto; white-space: nowrap; }
-  .thumbs img { width: 60px; height: 60px; object-fit: cover; cursor: pointer; background: #ccc; border-radius: 4px; flex-shrink: 0; }
+  .thumbs { display: flex; gap: 8px; padding: 10px; background: #fafafa; overflow-x: auto; white-space: nowrap; }
   .thumbs::-webkit-scrollbar { display: none; }
-
+  .thumbs img { width: 60px; height: 60px; object-fit: cover; cursor: pointer; background: #ccc; border-radius: 4px; }
   .desc { padding: 16px; font-size: 14px; line-height: 1.6; }
   .desc strong { display: block; margin-bottom: 8px; font-size: 16px; }
 
@@ -72,10 +92,24 @@
   }
   .back.show { display: block; }
 
-  /* ===== 底部版权小字 ===== */
-  .footer-text {
-    position: absolute; bottom: 15px; width: 100%; text-align: center;
-    font-size: 12px; color: rgba(255,255,255,0.4);
+  .footer-text { position: absolute; bottom: 15px; width: 100%; text-align: center; font-size: 12px; color: rgba(255,255,255,0.3); }
+
+  /* ===== 诗意页面 ===== */
+  #poem-page {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: #0a0a0a; 
+  }
+  #poem-page p {
+    font-size: 24px;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,0.85);
+    line-height: 2;
+    font-weight: 300;
+    text-shadow: 0 0 10px rgba(255,255,255,0.2);
   }
 </style>
 </head>
@@ -88,21 +122,30 @@
 <!-- ========== 首页 ========== -->
 <div id="home" class="page active">
   <h1>L-611的作品集</h1>
+  
   <div class="btn-group">
-    <button class="btn" onclick="showPage('scene-modeling')">场景建模</button>
-    <button class="btn" onclick="showPage('character-modeling')">角色建模</button>
-    <button class="btn" onclick="showPage('painting')">绘画作品</button>
-    <button class="btn" onclick="showPage('handcraft')">手工作品</button>
-    <button class="btn" onclick="showPage('2d-animation')">二维动画</button>
-    <button class="btn" onclick="showPage('3d-animation')">三维动画</button>
+    <button class="btn" onclick="showPage('scene-modeling')">三维建模</button>
+    <button class="btn" onclick="showPage('2d-art')">二维设计</button>
+    <button class="btn" onclick="showPage('animation')">动画作品</button>
+    <button class="btn" onclick="showPage('other-crafts')">综合创作</button>
   </div>
+
+  <!-- ☁️ 那朵神奇的云 -->
+  <div class="cloud-container" onclick="showPage('poem-page')">
+    <svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.6)" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.5 19H6.5C4.01472 19 2 16.9853 2 14.5C2 12.1322 3.83267 10.1867 6.1536 10.0212C6.75651 7.73968 8.83478 6 11.25 6C13.9869 6 16.25 8.09277 16.4922 10.7645C18.5028 11.1326 20 12.8845 20 15C20 17.2091 18.2091 19 16 19H17.5Z" />
+    </svg>
+  </div>
+
   <div class="footer-text">© 2024 L-611. 保留所有权利。</div>
 </div>
 
-<!-- ========== 场景建模 ========== -->
+<!-- ========== 1. 三维建模（保留了你的原代码） ========== -->
 <div id="scene-modeling" class="page">
-  <h2>场景建模</h2>
+  <h2>三维建模</h2>
   <div class="works">
+    
+    <!-- 你的“小木屋” -->
     <div class="work-card">
       <div class="gallery">
         <img src="images/changjing/1-A.png" class="main-img" alt="主图">
@@ -117,6 +160,8 @@
         blender
       </div>
     </div>
+
+    <!-- 你的“拥挤的房间” -->
     <div class="work-card">
       <div class="gallery">
         <img src="images/changjing/2-A.png" class="main-img" alt="主图">
@@ -136,39 +181,56 @@
         blender
       </div>
     </div>
+
   </div>
 </div>
 
-<!-- ========== 其他分类 ========== -->
-<div id="character-modeling" class="page"><h2>角色建模</h2></div>
-<div id="painting" class="page"><h2>绘画作品</h2></div>
-<div id="handcraft" class="page"><h2>手工作品</h2></div>
-<div id="2d-animation" class="page"><h2>二维动画</h2></div>
-<div id="3d-animation" class="page"><h2>三维动画</h2></div>
+<!-- ========== 2. 二维设计 ========== -->
+<div id="2d-art" class="page">
+  <h2>二维设计</h2>
+  <div class="works">
+    <!-- 以后放这里 -->
+  </div>
+</div>
 
-<!-- ========================================== -->
-<!-- 终极交互逻辑 -->
-<!-- ========================================== -->
+<!-- ========== 3. 动画作品 ========== -->
+<div id="animation" class="page">
+  <h2>动画作品</h2>
+  <div class="works">
+    <!-- 以后放这里 -->
+  </div>
+</div>
+
+<!-- ========== 4. 综合创作 ========== -->
+<div id="other-crafts" class="page">
+  <h2>综合创作</h2>
+  <div class="works">
+    <!-- 以后放这里 -->
+  </div>
+</div>
+
+<!-- ========== 5. 诗意页面 ========== -->
+<div id="poem-page" class="page">
+  <p>闲云也恋人寰好<br>山上渟滢懒上尖</p>
+</div>
+
+<!-- 交互逻辑（别动） -->
 <script>
 function showPage(id) {
-  // 1. 隐藏所有页面
   var pages = document.querySelectorAll('.page');
   for (var i = 0; i < pages.length; i++) {
     pages[i].style.display = 'none'; 
   }
   
-  // 2. 显示目标页面
   var targetPage = document.getElementById(id);
   if (targetPage) {
-    // 【关键修复】如果点击的是首页，用 flex 布局让它居中；如果是其他页面，用 block
-    if (id === 'home') {
+    if (id === 'home' || id === 'poem-page') {
       targetPage.style.display = 'flex'; 
     } else {
       targetPage.style.display = 'block'; 
     }
   }
   
-  // 3. 返回按钮
   var backBtn = document.getElementById('global-back');
   if (id === 'home') {
     backBtn.style.display = 'none';
@@ -176,11 +238,9 @@ function showPage(id) {
     backBtn.style.display = 'block';
   }
   
-  // 4. 回到顶部
   window.scrollTo(0, 0);
 }
 
-// 多图相册切换
 function changeImg(element, newSrc) {
   var card = element.closest('.work-card');
   var mainImg = card.querySelector('.main-img');
